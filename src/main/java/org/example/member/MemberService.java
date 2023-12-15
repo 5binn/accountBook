@@ -5,33 +5,40 @@ import java.util.List;
 public class MemberService {
 
     MemberRepository memberRepository;
+
     public MemberService() {
         memberRepository = new MemberRepository();
     }
+
     public String signUp(String userName, String password, String nickname) {
         return memberRepository.signUp(userName, password, nickname);
     }
-    public void login() {
 
+    public void login(Member member) {
+        memberRepository.login(member);
     }
 
     public void logout() {
-
+        memberRepository.logout();
     }
 
     public void withdrawal() {
+        memberRepository.withdrawal();
+    }
 
-    }
-    public List<Member> findByAll() {
-        return memberRepository.findByAll();
-    }
-    public boolean findBySameId(String checkName) {
+    public Member findBySameId(String checkName) {
         List<Member> memberList = memberRepository.findByAll();
         for (Member member : memberList) {
             if (member.getUserName().equals(checkName)) {
-                return true;
+                return member;
             }
         }
-        return false;
+        return null;
     }
+
+    public List<Member> findByAll() {
+        return memberRepository.findByAll();
+    }
+
+
 }

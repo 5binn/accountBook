@@ -25,8 +25,8 @@ public class Member {
         this.password = (String) row.get("password");
         this.nickname = (String) row.get("nickname");
         this.manager = (boolean) row.get("manager");
-        this.regDate = (String) row.get("regDate");
-        this.modifyDate = (String) row.get("modifyDate");
+        this.regDate = row.get("regDate").toString();
+        this.modifyDate = row.get("modifyDate").toString();
     }
 
 }

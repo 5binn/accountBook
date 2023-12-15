@@ -1,6 +1,7 @@
 package org.example.Global;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.example.DB.DBConnection;
 import org.example.member.Member;
 
@@ -12,6 +13,7 @@ public class Container {
     @Getter
     private static Scanner sc;
     private static DBConnection dbConnection;
+    @Getter
     private static Member loggedInMember;
     public static void initScanner() {
         sc = new Scanner(System.in);
@@ -29,5 +31,8 @@ public class Container {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date time = new Date();
         return format.format(time);
+    }
+    public static void setLoggedInMember(Member member) {
+        loggedInMember = member;
     }
 }

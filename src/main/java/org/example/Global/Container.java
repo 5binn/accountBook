@@ -3,6 +3,7 @@ package org.example.Global;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.DB.DBConnection;
+import org.example.accountBook.AccountBook;
 import org.example.member.Member;
 
 import java.text.SimpleDateFormat;
@@ -15,6 +16,8 @@ public class Container {
     private static DBConnection dbConnection;
     @Getter
     private static Member loggedInMember;
+    @Getter
+    private static AccountBook seletedAccountBook;
     public static void initScanner() {
         sc = new Scanner(System.in);
     }
@@ -34,5 +37,8 @@ public class Container {
     }
     public static void setLoggedInMember(Member member) {
         loggedInMember = member;
+    }
+    public static void setSeletedAccountBook(AccountBook accountBook) {
+        seletedAccountBook = accountBook;
     }
 }

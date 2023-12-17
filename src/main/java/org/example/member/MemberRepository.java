@@ -3,13 +3,10 @@ package org.example.member;
 import org.example.Global.Container;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 public class MemberRepository {
-
-    int lastMemberId = 1;
 
     public String signUp(String userName, String password, String nickname) {
         String sql = String.format("INSERT INTO `member`" +
@@ -21,7 +18,7 @@ public class MemberRepository {
                                     "modifyDate = now();", userName, password, nickname);
         int id = Container.getDbConnection().insert(sql);
         List<Member> memberList = this.findByAll();
-        return memberList.get(id-1).getUserName();
+        return memberList.get(memberList.size()-1).getUserName();
     }
     public void login(Member member) {
         Container.setLoggedInMember(member);
@@ -29,6 +26,7 @@ public class MemberRepository {
 
     public void logout() {
         Container.setLoggedInMember(null);
+        Container.setSeletedAccountBook(null);
     }
 
     public void withdrawal() {

@@ -11,13 +11,13 @@ import java.util.Map;
 @Setter
 @Getter
 public class Member {
-    int id;
-    String userName;
-    String password;
-    String nickname;
-    boolean manager;
-    String regDate;
-    String modifyDate;
+    private int id;
+    private String userName;
+    private String password;
+    private String nickname;
+    private boolean manager;
+    private String regDate;
+    private String modifyDate;
 
     Member(Map<String, Object> row) {
         this.id = (int) row.get("id");

@@ -2,12 +2,10 @@ package org.example.member;
 
 import org.example.Global.Container;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class MemberController {
 
-    MemberService memberService;
+    private MemberService memberService;
 
     public MemberController() {
         memberService = new MemberService();
@@ -99,6 +97,8 @@ public class MemberController {
             String response = Container.getSc().nextLine();
             if (response.equals("Y") || response.equals("y")) {
                 memberService.withdrawal();
+                memberService.logout();
+                return;
             } else if (response.equals("N") || response.equals("n")) {
                 return;
             } else {

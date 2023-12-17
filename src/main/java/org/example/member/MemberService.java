@@ -4,7 +4,7 @@ import java.util.List;
 
 public class MemberService {
 
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
     public MemberService() {
         memberRepository = new MemberRepository();

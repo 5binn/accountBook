@@ -29,13 +29,18 @@ public class App {
         wiseSayingController.setWiseSaying();
         try {
             wiseSaying = Container.getWiseSayings();
-        }catch (NullPointerException e) {
-            System.out.println("등록된 명언이 없습니다.");
+        } catch (NullPointerException e) {
+            return;
         }
     }
 
     public void run() {
-        System.out.println("== 너의 통장을 생각해라 ==\n" + wiseSaying.getWiseSaying());
+        System.out.println("== 너 통 생 ==");
+        if (this.wiseSaying == null) {
+            System.out.println("등록된 명언이 없습니다.");
+        } else {
+            System.out.println(wiseSaying.getWiseSaying());
+        }
         while (true) {
             System.out.println("=== 메인 ===\n1.가입|2.로그인|3.로그아웃|4.탈퇴|5.가계부|6.종료");
             System.out.print("명령어 입력 : ");

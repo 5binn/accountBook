@@ -1,7 +1,11 @@
 package org.example.accountBook;
 
+import org.example.Global.Container;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class AccountBookService {
     private AccountBookRepository accountBookRepository;
@@ -32,6 +36,10 @@ public class AccountBookService {
         accountBookRepository.cancel();
     }
 
+    public void share(String shareId) {
+        accountBookRepository.share(shareId);
+    }
+
     public List<AccountBook> list() {
         return accountBookRepository.findByAll();
     }
@@ -40,7 +48,11 @@ public class AccountBookService {
         accountBookRepository.delete(accountBook);
     }
 
-    public String modify(String modifyName, int balance, int savingGoal, String regDate) {
-        return accountBookRepository.modify(modifyName, balance, savingGoal, regDate);
+    public String modify(String modifyName, int balance, int savingGoal, String modifyDate, String accountName) {
+        return accountBookRepository.modify(modifyName, balance, savingGoal, modifyDate, accountName);
+    }
+
+    public List<AccountBook> findByAll() {
+        return accountBookRepository.findByAll();
     }
 }

@@ -4,11 +4,16 @@ import org.example.DB.DBConnection;
 import org.example.Global.Container;
 import org.example.accountBook.AccountBookController;
 import org.example.member.MemberController;
+import org.example.wiseSaying.WiseSaying;
+import org.example.wiseSaying.WiseSayingController;
 
 public class App {
     MemberController memberController;
 
     AccountBookController accountBookController;
+
+    WiseSayingController wiseSayingController;
+    WiseSaying wiseSaying;
 
     App() {
         DBConnection.DB_NAME = "accountBook";
@@ -20,12 +25,19 @@ public class App {
 
         memberController = new MemberController();
         accountBookController = new AccountBookController();
+        wiseSayingController = new WiseSayingController();
+        wiseSayingController.setWiseSaying();
+        try {
+            wiseSaying = Container.getWiseSayings();
+        }catch (NullPointerException e) {
+            System.out.println("등록된 명언이 없습니다.");
+        }
     }
 
     public void run() {
-        System.out.println("시스템 시작");
+        System.out.println("== 너의 통장을 생각해라 ==\n" + wiseSaying.getWiseSaying());
         while (true) {
-            System.out.println("1.가입|2.로그인|3.로그아웃|4.탈퇴|5.가계부|6.종료");
+            System.out.println("=== 메인 ===\n1.가입|2.로그인|3.로그아웃|4.탈퇴|5.가계부|6.종료");
             System.out.print("명령어 입력 : ");
             String command = Container.getSc().nextLine().trim();
             switch (command) {
@@ -65,23 +77,8 @@ public class App {
                 case "가계부":
                     accountBookController.command();
                     break;
-                case "가계부생성":
-                    accountBookController.create();
-                    break;
-                case "가계부선택":
-                    accountBookController.select();
-                    break;
-                case "가계부선택취소":
-                    accountBookController.cancel();
-                    break;
-                case "가계부목록":
-                    accountBookController.list();
-                    break;
-                case "가계부수정":
-                    accountBookController.modify();
-                    break;
-                case "가계부삭제":
-                    accountBookController.delete();
+                case "명언":
+                    wiseSayingController.command();
                     break;
             }
         }

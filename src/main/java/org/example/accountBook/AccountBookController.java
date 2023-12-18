@@ -1,25 +1,29 @@
 package org.example.accountBook;
 
 import org.example.Global.Container;
+import org.example.member.Member;
+import org.example.member.MemberService;
 
 import java.util.List;
 
 public class AccountBookController {
+    String command;
     private AccountBookService accountBookService;
+    private MemberService memberService;
 
     public AccountBookController() {
         accountBookService = new AccountBookService();
+        memberService = new MemberService();
     }
 
-    String command;
-
     public void command() {
+        System.out.println("=== 메인 → 5.가계부 ===");
         if (Container.getLoggedInMember() == null) {
             System.out.println("현재 사용자가 없습니다. 로그인을 먼저 해주세요.");
             return;
         }
-        System.out.println("1.생성|2.목록|3.선택|4.취소|5.수정|6.삭제|7.뒤로");
         while (true) {
+            System.out.println("1.생성|2.목록|3.선택|4.취소|5.공유|6.수정|7.삭제|8.뒤로");
             System.out.print("명령어 입력 : ");
             this.command = Container.getSc().nextLine();
             switch (command) {
@@ -36,12 +40,15 @@ public class AccountBookController {
                     command = "취소";
                     break;
                 case "5":
-                    command = "수정";
+                    command = "공유";
                     break;
                 case "6":
-                    command = "삭제";
+                    command = "수정";
                     break;
                 case "7":
+                    command = "삭제";
+                    break;
+                case "8":
                     return;
             }
             switch (command) {
@@ -57,6 +64,9 @@ public class AccountBookController {
                 case "취소":
                     this.cancel();
                     break;
+                case "공유":
+                    this.share();
+                    break;
                 case "수정":
                     this.modify();
                     break;
@@ -71,6 +81,7 @@ public class AccountBookController {
     }
 
     public void create() {
+        System.out.println("=== 메인 → 5.가계부 → 1.생성 ===");
         if (!this.loginCheck()) return;
         System.out.println("가계부를 생성합니다.");
         System.out.print("가계부 이름 : ");
@@ -90,9 +101,11 @@ public class AccountBookController {
     }
 
     public void select() {
+        System.out.println("=== 메인 → 5.가계부 → 3.선택 ===");
         if (!this.loginCheck()) return;
-        System.out.println("사용할 가계부의 이름을 입력해주세요.");
-        System.out.print("입력 : ");
+        this.list();
+        System.out.println("사용할 가계부를 선택해주세요.");
+        System.out.print("이름 입력 : ");
         String name = Container.getSc().nextLine();
         if (Container.getSeletedAccountBook() != null) {
             if (Container.getSeletedAccountBook().getAccountName().equals(name)) {
@@ -111,13 +124,43 @@ public class AccountBookController {
     public void cancel() {
         if (!this.loginCheck()) return;
         if (Container.getSeletedAccountBook() == null) {
-            System.out.println("현재 사용중인 가계부가 없습니다.");
+            System.out.println("현재 선택한 가계부가 없습니다.");
             return;
         }
+        System.out.println("=== 메인 → " + Container.getSeletedAccountBook().getAccountName() + " → 4.취소 ===");
         accountBookService.cancel();
     }
 
+    public void share() {
+        if (!this.loginCheck()) return;
+        if (Container.getSeletedAccountBook() == null) {
+            System.out.println("현재 선택한 가계부가 없습니다.");
+            return;
+        }
+        System.out.println("=== 메인 → " + Container.getSeletedAccountBook().getAccountName() + " → 5.공유 ===");
+        this.list();
+        System.out.println("공유하실 가계부 이름과 상대방 ID를 입력해주세요.");
+        System.out.print("가계부 이름 : ");
+        String shareAccountName = Container.getSc().nextLine();
+        AccountBook accountBook = accountBookService.findByName(shareAccountName);
+        if (accountBook == null) {
+            System.out.println("해당 이름의 가계부가 존재하지 않습니다.");
+            return;
+        }
+        System.out.print("상대 ID : ");
+        String shareId = Container.getSc().nextLine();
+        Member member = memberService.findBySameId(shareId);
+        if (member == null) {
+            System.out.println("해당 ID의 회원이 존재하지 않습니다.");
+            return;
+        }
+        accountBookService.share(shareId);
+        System.out.println(Container.getLoggedInMember().getUserName() + "님의 " +
+                shareAccountName + "(이)가 " + shareId + "님과 공유되었습니다.");
+    }
+
     public void list() {
+        System.out.println("=== 메인 → 5.가계부 → 2.목록 ===");
         if (!this.loginCheck()) return;
         System.out.println(Container.getLoggedInMember().getUserName() + " 님의 가계부 목록입니다.");
         System.out.println("이름 | 잔액 | 목표\n----------------------");
@@ -128,7 +171,9 @@ public class AccountBookController {
     }
 
     public void delete() {
+        System.out.println("=== 메인 → 5.가계부 → 7.삭제 ===");
         if (!this.loginCheck()) return;
+        this.list();
         System.out.println("삭제할 가계부의 이름을 입력해주세요.");
         System.out.print("입력 : ");
         String deleteName = Container.getSc().nextLine();
@@ -142,29 +187,25 @@ public class AccountBookController {
     }
 
     public void modify() {
-        AccountBook accountBook;
+        System.out.println("=== 메인 → 5.가계부 → 6.수정 ===");
         if (!this.loginCheck()) return;
         System.out.println("수정할 가계부의 이름을 입력해주세요.");
         System.out.print("입력 : ");
-        String modifyName = Container.getSc().nextLine();
-        accountBook = accountBookService.findByName(modifyName);
+        String accountName = Container.getSc().nextLine();
+        AccountBook accountBook = accountBookService.findByName(accountName);
         if (accountBook == null) {
             System.out.println("해당 이름의 가계부가 존재하지 않습니다.");
             return;
         }
-        while (true) {
-            System.out.println("기존 이름 : " + accountBook.getAccountName());
-            System.out.print("이름 입력 : ");
-            String name = Container.getSc().nextLine();
-            accountBook = accountBookService.findByName(name);
-            if (accountBook != null) {
-                System.out.println("같은 이름의 가계부가 존재합니다.");
-                continue;
-            }
-            modifyName = name;
-            break;
-        }
 
+        System.out.println("기존 이름 : " + accountBook.getAccountName());
+        System.out.print("이름 입력 : ");
+        String nameCheck = Container.getSc().nextLine();
+        AccountBook accountCheck = accountBookService.findByName(nameCheck);
+        if (accountCheck != null) {
+            System.out.println("같은 이름의 가계부가 존재합니다.");
+            return;
+        }
         System.out.println("기존 잔액 : " + accountBook.getBalance());
         System.out.print("잔액 입력: ");
         int balance = Integer.parseInt(Container.getSc().nextLine());
@@ -172,8 +213,8 @@ public class AccountBookController {
         System.out.print("목표 입력 : ");
         int savingGoal = Integer.parseInt(Container.getSc().nextLine());
 
-        String name = accountBookService.modify(modifyName, balance, savingGoal, accountBook.getRegDate());
-        System.out.println("가계부 " + name + " (이)가 수정되었습니다.");
+        String name = accountBookService.modify(nameCheck, balance, savingGoal, accountBook.getRegDate(), accountName);
+        System.out.println(Container.getLoggedInMember().getUserName() + "님의 " + name + "->" + nameCheck + " 로 수정되었습니다.");
     }
 
 
@@ -183,6 +224,10 @@ public class AccountBookController {
             return false;
         }
         return true;
+    }
+
+    public boolean idCheck() {
+        return Container.getSeletedAccountBook().getMemberId() == Container.getLoggedInMember().getId();
     }
 
 

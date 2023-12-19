@@ -1,12 +1,15 @@
 package org.example.history;
 
 import org.example.Global.Container;
+import org.example.Request;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class HistoryController {
-    String command;
     HistoryService historyService;
+
+    Request request;
 
     public HistoryController() {
         historyService = new HistoryService();
@@ -15,31 +18,16 @@ public class HistoryController {
     public void command() {
         while (true) {
             System.out.println("=== 메인 → 5.가계부 → " + Container.getSeletedAccountBook().getAccountName() + " → 내역 ===");
-            System.out.println("1.등록|2.보기|3.수정|4.삭제||5.뒤로");
+            System.out.println("1.등록|2.보기(:월,일,항목,전체)|3.수정|4.삭제||5.뒤로");
             System.out.print("명령어 입력 : ");
-            this.command = Container.getSc().nextLine();
-            switch (command) {
-                case "1":
-                    command = "등록";
-                    break;
-                case "2":
-                    command = "보기";
-                    break;
-                case "3":
-                    command = "수정";
-                    break;
-                case "4":
-                    command = "삭제";
-                    break;
-                case "5":
-                    return;
-            }
-            switch (command) {
+            String command = Container.getSc().nextLine();
+            request = new Request(command);
+            switch (request.actionCode) {
                 case "등록":
                     this.create();
                     break;
                 case "보기":
-                    this.read();
+                    this.read(request.readCommand);
                     break;
                 case "수정":
                     this.update();
@@ -60,7 +48,7 @@ public class HistoryController {
             System.out.print("날짜 입력 : ");
             String createDate = Container.getSc().nextLine().trim();
             System.out.println("항목 선택 : [1.고정비|2.식비|3.생활비|4.유흥비|5.교통비|6.교육비|7.금융비|8.세금|9.기타]");
-            System.out.println("번호 입력 : ");
+            System.out.print("번호 입력 : ");
             int categoryId = Integer.parseInt(Container.getSc().nextLine().trim());
             if (categoryId < 1 || categoryId > 9) {
                 System.out.println("해당 항목은 존재하지 않습니다.");
@@ -80,10 +68,62 @@ public class HistoryController {
         }
     }
 
-    public void read() {
-        System.out.println("=== 메인 → 5.가계부 → " +
-                Container.getSeletedAccountBook().getAccountName() + " → 내역 → 2.보기 ===");
-        System.out.println("");
+    public void read(String command) {
+        if (command == null) {
+            System.out.println("=== 메인 → 5.가계부 → " +
+                    Container.getSeletedAccountBook().getAccountName() + " → 내역 → 2.보기 ===");
+            System.out.println("[1.월|2.일|3.항목|4.전체]");
+            System.out.print("타입 선택 : ");
+            command = Container.getSc().nextLine();
+            switch (command) {
+                case "1":
+                    command = "월";
+                    break;
+                case "2":
+                    command = "일";
+                    break;
+                case "3":
+                    command = "항목";
+                    break;
+                case "4":
+                    command = "전체";
+                    break;
+            }
+        }
+        switch (command) {
+            case "1":
+                command = "월";
+                break;
+            case "2":
+                command = "일";
+                break;
+            case "3":
+                command = "항목";
+                break;
+            case "4":
+                command = "전체";
+                break;
+        }
+        switch (command) {
+            case "월":
+                System.out.print("연 입력 : ");
+                String year = Container.getSc().nextLine();
+                System.out.print("월 입력 : ");
+                String month = Container.getSc().nextLine();
+                System.out.println("날짜 | 항목 | 내용 | 수입 | 지출 ");
+                List<History> historyList = historyService.viewByMonth(year, month);
+
+                break;
+            case "일":
+                System.out.println("일별보기");
+                break;
+            case "항목":
+                System.out.println("항목별보기");
+                break;
+            case "전체":
+                System.out.println("전체보기");
+                break;
+        }
     }
 
     public void delete() {

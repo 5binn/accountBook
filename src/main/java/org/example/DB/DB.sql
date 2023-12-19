@@ -70,6 +70,40 @@ VALUES
 
 
 
+INSERT INTO `history`
+SET `date` = '2023-12-10',
+`content` = '내용',
+`income` = 50000,
+`expense` = 0,
+categoryId = 2,
+accountId = 6,
+regDate = NOW(),
+modifyDate = NOW();
+
+SELECT * FROM `member`;
+SELECT * FROM accountBook;
+SELECT * FROM category;
+SELECT * FROM history WHERE
+YEAR(`date`) = 2022 AND MONTH(`date`) = 08
+
+;
+SELECT H.`date` , C.category ,
+H.content , H.income , H.expense
+FROM history AS H
+JOIN category AS C
+ON H.categoryId = C.categoryId
+ORDER BY `date` ASC
+;
+
+SELECT sum(expense) FROM history
+YEAR(`date`) = 2022 AND MONTH(`date`) = 08;
+
+SELECT SUM(expense) FROM history WHERE
+YEAR(`date`) = 2022 AND MONTH(`date`) = 08
+AND accountId = 11;
+
+
+DESC category
 
 
 

@@ -156,6 +156,10 @@ public class DBConnection {
             }
 
         } catch (SQLException e) {
+            if (e.getMessage().contains("date")){
+                System.out.println("날짜 형식을 확인하고 다시 입력해주세요.(YYMMDD|YY.MM.DD|YY-MM-DD)");
+                return id = 0;
+            }
             System.err.printf("[SQL 예외, SQL : %s] : %s\n", sql, e.getMessage());
         }
 

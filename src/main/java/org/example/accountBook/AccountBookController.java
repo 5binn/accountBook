@@ -1,6 +1,7 @@
 package org.example.accountBook;
 
 import org.example.Global.Container;
+import org.example.history.HistoryController;
 import org.example.member.Member;
 import org.example.member.MemberService;
 
@@ -10,20 +11,22 @@ public class AccountBookController {
     String command;
     private AccountBookService accountBookService;
     private MemberService memberService;
+    private HistoryController historyController;
 
     public AccountBookController() {
         accountBookService = new AccountBookService();
         memberService = new MemberService();
+        historyController = new HistoryController();
     }
 
     public void command() {
-        System.out.println("=== 메인 → 5.가계부 ===");
         if (Container.getLoggedInMember() == null) {
             System.out.println("현재 사용자가 없습니다. 로그인을 먼저 해주세요.");
             return;
         }
         while (true) {
-            System.out.println("1.생성|2.목록|3.선택|4.취소|5.공유|6.수정|7.삭제|8.뒤로");
+            System.out.println("=== 메인 → 5.가계부 ===");
+            System.out.println("1.생성|2.목록|3.선택|4.취소|5.뒤로");
             System.out.print("명령어 입력 : ");
             this.command = Container.getSc().nextLine();
             switch (command) {
@@ -40,15 +43,6 @@ public class AccountBookController {
                     command = "취소";
                     break;
                 case "5":
-                    command = "공유";
-                    break;
-                case "6":
-                    command = "수정";
-                    break;
-                case "7":
-                    command = "삭제";
-                    break;
-                case "8":
                     return;
             }
             switch (command) {
@@ -63,15 +57,6 @@ public class AccountBookController {
                     break;
                 case "취소":
                     this.cancel();
-                    break;
-                case "공유":
-                    this.share();
-                    break;
-                case "수정":
-                    this.modify();
-                    break;
-                case "삭제":
-                    this.delete();
                     break;
                 case "뒤로":
                     return;
@@ -104,7 +89,7 @@ public class AccountBookController {
         System.out.println("=== 메인 → 5.가계부 → 3.선택 ===");
         if (!this.loginCheck()) return;
         this.list();
-        System.out.println("사용할 가계부를 선택해주세요.");
+        System.out.println("사용할 가계부의 이름을 입력해주세요.");
         System.out.print("이름 입력 : ");
         String name = Container.getSc().nextLine();
         if (Container.getSeletedAccountBook() != null) {
@@ -119,12 +104,50 @@ public class AccountBookController {
             return;
         }
         accountBookService.select(accountBook);
+        while (true) {
+            System.out.println("=== 메인 → 5.가계부 → " + Container.getSeletedAccountBook().getAccountName() + " ===");
+            System.out.println("1.공유|2.수정|3.삭제|4.내역|5.뒤로");
+            System.out.print("명령어 입력 : ");
+            this.command = Container.getSc().nextLine();
+            switch (command) {
+                case "1":
+                    command = "공유";
+                    break;
+                case "2":
+                    command = "수정";
+                    break;
+                case "3":
+                    command = "삭제";
+                    break;
+                case "4":
+                    command = "내역";
+                    break;
+                case "5":
+                    return;
+            }
+            switch (command) {
+                case "공유":
+                    this.share();
+                    break;
+                case "수정":
+                    this.modify();
+                    break;
+                case "삭제":
+                    this.delete();
+                    break;
+                case "내역":
+                    historyController.command();
+                    break;
+                case "뒤로":
+                    return;
+            }
+        }
     }
 
     public void cancel() {
         if (!this.loginCheck()) return;
         if (Container.getSeletedAccountBook() == null) {
-            System.out.println("현재 선택한 가계부가 없습니다.");
+            System.out.println("현재 선택하신 가계부가 없습니다.");
             return;
         }
         System.out.println("=== 메인 → " + Container.getSeletedAccountBook().getAccountName() + " → 4.취소 ===");
@@ -134,7 +157,7 @@ public class AccountBookController {
     public void share() {
         if (!this.loginCheck()) return;
         if (Container.getSeletedAccountBook() == null) {
-            System.out.println("현재 선택한 가계부가 없습니다.");
+            System.out.println("현재 선택하신 가계부가 없습니다.");
             return;
         }
         System.out.println("=== 메인 → " + Container.getSeletedAccountBook().getAccountName() + " → 5.공유 ===");

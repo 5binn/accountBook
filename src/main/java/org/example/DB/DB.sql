@@ -30,7 +30,7 @@ CREATE TABLE `history` (
 	`income` INT NULL,
 	`expense` INT NULL,
 	`categoryId` INT NOT NULL,
-	`accounId` INT NOT NULL,
+	`accountId` INT NOT NULL,
 	`regDate` DATETIME NOT NULL,
 	`modifyDate` DATETIME NOT NULL
 );

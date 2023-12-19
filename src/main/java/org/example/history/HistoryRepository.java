@@ -21,42 +21,78 @@ public class HistoryRepository {
         return Container.getDbConnection().insert(sql);
     }
 
-    public int sumIncome(String year, String month) {
-        String sql = String.format("SELECT SUM(income) FROM history WHERE" +
-                "YEAR(`date`) = %s AND MONTH(`date`) = %s %s" +
-                "AND accountId = %d;", year, month, "", Container.getSeletedAccountBook().getId());
-        Map<String, Object> row = Container.getDbConnection().selectRow(sql);
-        History history = new History(row);
-        return history.getIncome();
+    public int sumIncome(String year, String month, String day, String categoryId) {
+        String sql = String.format("SELECT SUM(income) FROM history WHERE " +
+                "accountId = %d %s %s %s %s;", Container.getSeletedAccountBook().getId(),
+                 year, month, day, categoryId);
+        return Container.getDbConnection().selectRowIntValue(sql);
     }
 
-    public int sumExpense() {
-        return 0;
+    public int sumExpense(String year, String month, String day, String categoryId) {
+        String sql = String.format("SELECT SUM(expense) FROM history WHERE " +
+                        "accountId = %d %s %s %s %s;", Container.getSeletedAccountBook().getId(),
+                year, month, day, categoryId);
+        return Container.getDbConnection().selectRowIntValue(sql);
     }
 
-    public List<History> viewByMonth(String year, String month) {
-        List<History> historyList = new ArrayList<>();
-        String sql = String.format("SELECT * FROM history WHERE" +
-                "YEAR(`date`) = %s AND MONTH(`date`) = %s" +
-                "AND accountId = %d ORDER BY `date` ASC;", year, month, Container.getSeletedAccountBook().getId());
+    public List<HistoryDTO> viewByMonth(String year, String month) {
+        List<HistoryDTO> historyDTOList = new ArrayList<>();
+        String sql = String.format("SELECT H.`date`, C.category, H.content, H.income, H.expense " +
+                        "FROM history AS H JOIN category AS C ON H.categoryId = C.categoryId " +
+                        "WHERE YEAR(`date`) = '%s' AND MONTH(`date`) = '%s' AND accountId = %d ORDER BY `date` ASC;",
+                year, month, Container.getSeletedAccountBook().getId());
         List<Map<String, Object>> rows = Container.getDbConnection().selectRows(sql);
+        if (rows == null) return null;
         for (Map<String, Object> row : rows) {
-            History history = new History(row);
-            historyList.add(history);
+            HistoryDTO historyDTO = new HistoryDTO(row);
+            historyDTOList.add(historyDTO);
         }
-        return historyList;
+        return historyDTOList;
     }
 
-    public void viewByDay() {
-
+    public List<HistoryDTO> viewByDay(String year, String month, String day) {
+        List<HistoryDTO> historyDTOList = new ArrayList<>();
+        String sql = String.format("SELECT H.`date`, C.category, H.content, H.income, H.expense " +
+                        "FROM history AS H JOIN category AS C ON H.categoryId = C.categoryId " +
+                        "WHERE YEAR(`date`) = '%s' AND MONTH(`date`) = '%s' " +
+                        "AND DAY(`date`) = '%s' AND accountId = %d ORDER BY `date` ASC;",
+                year, month, day, Container.getSeletedAccountBook().getId());
+        List<Map<String, Object>> rows = Container.getDbConnection().selectRows(sql);
+        if (rows == null) return null;
+        for (Map<String, Object> row : rows) {
+            HistoryDTO historyDTO = new HistoryDTO(row);
+            historyDTOList.add(historyDTO);
+        }
+        return historyDTOList;
     }
 
-    public void viewByCategory() {
-
+    public List<HistoryDTO> viewByCategory(String categoryId) {
+        List<HistoryDTO> historyDTOList = new ArrayList<>();
+        String sql = String.format("SELECT H.`date`, C.category, H.content, H.income, H.expense " +
+                        "FROM history AS H JOIN category AS C ON H.categoryId = C.categoryId " +
+                        "WHERE H.categoryId = %s AND accountId = %d ORDER BY `date` ASC;",
+                categoryId, Container.getSeletedAccountBook().getId());
+        List<Map<String, Object>> rows = Container.getDbConnection().selectRows(sql);
+        if (rows == null) return null;
+        for (Map<String, Object> row : rows) {
+            HistoryDTO historyDTO = new HistoryDTO(row);
+            historyDTOList.add(historyDTO);
+        }
+        return historyDTOList;
     }
 
-    public void viewByAll() {
-
+    public List<HistoryDTO> viewByAll() {
+        List<HistoryDTO> historyDTOList = new ArrayList<>();
+        String sql = String.format("SELECT H.`date`, C.category, H.content, H.income, H.expense " +
+                        "FROM history AS H JOIN category AS C ON H.categoryId = C.categoryId " +
+                        "WHERE accountId = %d ORDER BY `date` ASC;", Container.getSeletedAccountBook().getId());
+        List<Map<String, Object>> rows = Container.getDbConnection().selectRows(sql);
+        if (rows == null) return null;
+        for (Map<String, Object> row : rows) {
+            HistoryDTO historyDTO = new HistoryDTO(row);
+            historyDTOList.add(historyDTO);
+        }
+        return historyDTOList;
     }
 
     public void delete() {

@@ -1,7 +1,13 @@
 package org.example.history;
 
-import java.util.Map;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.Map;
+@AllArgsConstructor
+@Setter
+@Getter
 public class HistoryDTO {
     String date;
     String content;
@@ -10,7 +16,7 @@ public class HistoryDTO {
     String category;
 
     HistoryDTO(Map<String, Object> row) {
-        this.date = (String) row.get("date");
+        this.date = row.get("date").toString();
         this.content = (String) row.get("content");
         this.income = (int) row.get("income");
         this.expense = (int) row.get("expense");

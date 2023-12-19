@@ -22,7 +22,7 @@ public class History {
 
     History(Map<String, Object> row) {
         this.id = (int) row.get("id");
-        this.date = (String) row.get("date");
+        this.date = row.get("date").toString();
         this.content = (String) row.get("content");
         this.income = (int) row.get("income");
         this.expense = (int) row.get("expense");

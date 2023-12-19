@@ -19,7 +19,8 @@ public class Request {
                 command = "삭제";
                 break;
             case "5":
-                return;
+                command = "뒤로";
+                break;
         }
         commandList = command.split(":", 2);
         actionCode = commandList[0];

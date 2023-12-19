@@ -1,5 +1,8 @@
 package org.example.DB;
 
+import org.example.Global.Container;
+
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +38,9 @@ public class DBConnection {
         Map<String, Object> row = selectRow(sql);
 
         for (String key : row.keySet()) {
+            if (row.get(key) instanceof BigDecimal) {
+                return Container.decimalToInteger((BigDecimal) row.get(key));
+            }
             return (int) row.get(key);
         }
 
@@ -108,6 +114,10 @@ public class DBConnection {
                 rows.add(row);
             }
         } catch (SQLException e) {
+            /*if (e.getMessage().contains("date")){
+                System.out.println("날짜 형식을 확인하고 다시 입력해주세요.(YYYY|MM)");
+                return null;
+            }*/
             System.err.printf("[SQL 예외, SQL : %s] : %s\n", sql, e.getMessage());
             e.printStackTrace();
         }

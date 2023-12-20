@@ -26,7 +26,7 @@ public class DBConnection {
         try {
             connection = DriverManager.getConnection(url, user, password);
             Class.forName(driverName);
-            System.out.println("연결성공");
+            //System.out.println("연결성공");
         } catch (SQLException e) {
             System.err.printf("[SQL 예외] : %s\n", e.getMessage());
         } catch (ClassNotFoundException e) {
@@ -38,12 +38,14 @@ public class DBConnection {
         Map<String, Object> row = selectRow(sql);
 
         for (String key : row.keySet()) {
+            if (row.get(key) == null) {
+                return 0;
+            }
             if (row.get(key) instanceof BigDecimal) {
                 return Container.decimalToInteger((BigDecimal) row.get(key));
             }
             return (int) row.get(key);
         }
-
         return -1;
     }
 

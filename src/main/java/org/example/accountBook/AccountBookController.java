@@ -9,9 +9,9 @@ import java.util.List;
 
 public class AccountBookController {
     String command;
-    private AccountBookService accountBookService;
-    private MemberService memberService;
-    private HistoryController historyController;
+    private final AccountBookService accountBookService;
+    private final MemberService memberService;
+    private final HistoryController historyController;
 
     public AccountBookController() {
         accountBookService = new AccountBookService();

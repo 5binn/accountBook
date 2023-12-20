@@ -1,13 +1,9 @@
 package org.example.history;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryService {
-    String actionCode;
-    String[] commandList;
-    String readCommand;
-    HistoryRepository historyRepository;
+    private final HistoryRepository historyRepository;
 
     public HistoryService() {
         historyRepository = new HistoryRepository();
@@ -83,11 +79,15 @@ public class HistoryService {
         return historyRepository.viewByAll();
     }
 
-    public void delete() {
-
+    public void delete(String deleteDate, String deleteContent) {
+        historyRepository.delete(deleteDate, deleteContent);
     }
 
-    public void update() {
+    public int update(String updateDate, int categoryId, String content, int income, int expense, String findDate, String findContent) {
+        return historyRepository.update(updateDate, categoryId, content, income, expense, findDate, findContent);
+    }
 
+    public HistoryDTO findHistory(String findDate, String findContent) {
+        return historyRepository.findHistory(findDate, findContent);
     }
 }

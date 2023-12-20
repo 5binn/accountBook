@@ -95,11 +95,28 @@ public class HistoryRepository {
         return historyDTOList;
     }
 
-    public void delete() {
-
+    public void delete(String deleteDate, String deleteContent) {
+        String sql = String.format("DELETE FROM `history` WHERE `date` = '%s' AND content = '%s';", deleteDate, deleteContent);
+        Container.getDbConnection().delete(sql);
     }
 
-    public void update() {
+    public int update(String updateDate, int categoryId, String content, int income, int expense, String findDate, String findContent) {
+        String sql = String.format("UPDATE `history`" +
+                "SET `date` = %s," +
+                "content = '%s'," +
+                "income = %d," +
+                "expense = %d," +
+                "categoryId = %d," +
+                "regDate = NOW()," +
+                "modifyDate = NOW()" +
+                "WHERE `date` = '%s' AND content = '%s';", updateDate, content, income, expense, categoryId, findDate, findContent);
+        return Container.getDbConnection().insert(sql);
+    }
 
+    public HistoryDTO findHistory(String findDate, String findContent) {
+        String sql = String.format("SELECT H.`date` , C.category ,H.content , H.income , H.expense " +
+                "FROM history AS H JOIN category AS C ON H.categoryId = C.categoryId WHERE `date` = '%s' AND content = '%s'; ", findDate, findContent);
+        Map<String, Object> row = Container.getDbConnection().selectRow(sql);
+        return new HistoryDTO(row);
     }
 }

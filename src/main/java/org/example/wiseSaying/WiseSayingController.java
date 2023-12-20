@@ -23,7 +23,7 @@ public class WiseSayingController {
             return;
         }
         while (true) {
-            System.out.println("1.생성|2.목록|3.삭제|4.수정|5.뒤로");
+            System.out.println("\n1.생성|2.목록|3.삭제|4.수정|5.뒤로");
             System.out.print("명령어 입력 : ");
             this.command = Container.getSc().nextLine();
             switch (command) {

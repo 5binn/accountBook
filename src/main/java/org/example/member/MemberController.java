@@ -18,7 +18,7 @@ public class MemberController {
     }
 
     public void signUp() {
-        System.out.println("=== 메인 → 1.가입 ===");
+        System.out.println("\n=== 메인 → 1.가입 ===");
         String userName;
         String password;
         String nickname;
@@ -60,7 +60,7 @@ public class MemberController {
     }
 
     public void login() {
-        System.out.println("=== 메인 → 2.로그인 ===");
+        System.out.println("\n=== 메인 → 2.로그인 ===");
         if (Container.getLoggedInMember() != null) {
             System.out.println(Container.getLoggedInMember().getUserName() + "님이 로그인 되어있습니다.");
             return;
@@ -84,7 +84,7 @@ public class MemberController {
     }
 
     public void logout() {
-        System.out.println("=== 메인 → 3.로그아웃 ===");
+        System.out.println("\n=== 메인 → 3.로그아웃 ===");
         if (Container.getLoggedInMember() == null) {
             System.out.println("현재 사용자가 없습니다. 로그인을 먼저 해주세요.");
             return;
@@ -94,7 +94,7 @@ public class MemberController {
     }
 
     public void withdrawal() {
-        System.out.println("=== 메인 → 4.탈퇴 ===");
+        System.out.println("\n=== 메인 → 4.탈퇴 ===");
         if (Container.getLoggedInMember() == null) {
             System.out.println("현재 사용자가 없습니다. 로그인을 먼저 해주세요.");
             return;

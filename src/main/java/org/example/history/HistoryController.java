@@ -3,6 +3,7 @@ package org.example.history;
 import org.example.Global.Container;
 import org.example.Request;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class HistoryController {
@@ -10,13 +11,14 @@ public class HistoryController {
 
     Request request;
 
+
     public HistoryController() {
         historyService = new HistoryService();
     }
 
     public void command() {
         while (true) {
-            System.out.println("=== 메인 → 5.가계부 → " + Container.getSeletedAccountBook().getAccountName() + " → 내역 ===");
+            System.out.println("\n=== 메인 → 5.가계부 → " + Container.getSeletedAccountBook().getAccountName() + " → 내역 ===");
             System.out.println("1.등록|2.보기(:월,일,항목,전체)|3.수정|4.삭제||5.뒤로");
             System.out.print("명령어 입력 : ");
             String command = Container.getSc().nextLine();
@@ -42,7 +44,7 @@ public class HistoryController {
 
     public void create() {
         try {
-            System.out.println("=== 메인 → 5.가계부 → " +
+            System.out.println("\n=== 메인 → 5.가계부 → " +
                     Container.getSeletedAccountBook().getAccountName() + " → 내역 → 1.등록 ===");
             System.out.print("날짜 입력 : ");
             String createDate = Container.getSc().nextLine().trim();
@@ -68,8 +70,9 @@ public class HistoryController {
     }
 
     public void read(String command) {
+        Container.numFormat();
         if (command == null) {
-            System.out.println("=== 메인 → 5.가계부 → " +
+            System.out.println("\n=== 메인 → 5.가계부 → " +
                     Container.getSeletedAccountBook().getAccountName() + " → 내역 → 2.보기 ===");
             System.out.println("[1.월|2.일|3.항목|4.전체]");
             System.out.print("타입 선택 : ");
@@ -108,11 +111,11 @@ public class HistoryController {
                 System.out.print("연 입력 : ");
                 String yearM = Container.getSc().nextLine();
                 if (yearM.length() < 5) {
-                    yearM = String.format("20%s",yearM);
+                    yearM = String.format("20%s", yearM);
                 }
                 System.out.print("월 입력 : ");
                 String monthM = Container.getSc().nextLine();
-                System.out.println("   날짜    |  항목  |  내용  |   수입   |   지출   ");
+                System.out.println("   날짜    |  항목  |  내용  |   수입   |   지출   \nㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
                 List<HistoryDTO> historyDTOListM = historyService.viewByMonth(yearM, monthM);
                 if (historyDTOListM == null) return;
                 int sumIncomeM = historyService.sumIncome(yearM, monthM, "", "");
@@ -121,22 +124,22 @@ public class HistoryController {
                     System.out.println(historyDTO.getDate() + " | " +
                             historyDTO.getCategory() + " | " +
                             historyDTO.getContent() + " | " +
-                            historyDTO.getIncome() + " | " +
-                            historyDTO.getExpense());
+                            Container.df.format(historyDTO.getIncome()) + " ￦ | " +
+                            Container.df.format(historyDTO.getExpense()) + " ￦");
                 }
-                System.out.println("  ● 총 수입 : +" + sumIncomeM + "    ● 총 지출 : -" + sumExpenseM + "\n");
+                System.out.println("  ● 총 수입 : +" + Container.df.format(sumIncomeM) + " ￦    ● 총 지출 : -" + Container.df.format(sumExpenseM) + " ￦\n");
                 break;
             case "일":
                 System.out.print("연 입력 : ");
                 String yearD = Container.getSc().nextLine();
                 if (yearD.length() < 5) {
-                    yearD = String.format("20%s",yearD);
+                    yearD = String.format("20%s", yearD);
                 }
                 System.out.print("월 입력 : ");
                 String monthD = Container.getSc().nextLine();
                 System.out.print("일 입력 : ");
                 String dayD = Container.getSc().nextLine();
-                System.out.println("   날짜    |  항목  |  내용  |   수입   |   지출   ");
+                System.out.println("   날짜    |  항목  |  내용  |   수입   |   지출   \nㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
                 List<HistoryDTO> historyDTOListD = historyService.viewByDay(yearD, monthD, dayD);
                 if (historyDTOListD == null) return;
                 int sumIncomeD = historyService.sumIncome(yearD, monthD, dayD, "");
@@ -145,16 +148,16 @@ public class HistoryController {
                     System.out.println(historyDTO.getDate() + " | " +
                             historyDTO.getCategory() + " | " +
                             historyDTO.getContent() + " | " +
-                            historyDTO.getIncome() + " | " +
-                            historyDTO.getExpense());
+                            Container.df.format(historyDTO.getIncome()) + " ￦ | " +
+                            Container.df.format(historyDTO.getExpense()) + " ￦");
                 }
-                System.out.println("  ● 총 수입 : +" + sumIncomeD + "    ● 총 지출 : -" + sumExpenseD + "\n");
+                System.out.println("  ● 총 수입 : +" + sumIncomeD + " ￦    ● 총 지출 : -" + sumExpenseD + " ￦\n");
                 break;
             case "항목":
                 System.out.println("[1.고정비|2.식비|3.생활비|4.유흥비|5.교통비|6.교육비|7.금융비|8.세금|9.기타]");
                 System.out.print("항목 입력 : ");
                 String categoryId = Container.getSc().nextLine();
-                System.out.println("   날짜    |  항목  |  내용  |   수입   |   지출   ");
+                System.out.println("   날짜    |  항목  |  내용  |   수입   |   지출   \nㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
                 List<HistoryDTO> historyDTOListC = historyService.viewByCategory(categoryId);
                 if (historyDTOListC == null) return;
                 int sumIncomeC = historyService.sumIncome("", "", "", categoryId);
@@ -163,30 +166,45 @@ public class HistoryController {
                     System.out.println(historyDTO.getDate() + " | " +
                             historyDTO.getCategory() + " | " +
                             historyDTO.getContent() + " | " +
-                            historyDTO.getIncome() + " | " +
-                            historyDTO.getExpense());
+                            Container.df.format(historyDTO.getIncome()) + " ￦ | " +
+                            Container.df.format(historyDTO.getExpense()) + " ￦");
                 }
-                System.out.println("  ● 총 수입 : +" + sumIncomeC + "    ● 총 지출 : -" + sumExpenseC + "\n");
+                System.out.println("  ● 총 수입 : +" + sumIncomeC + " ￦    ● 총 지출 : -" + sumExpenseC + " ￦\n");
                 break;
             case "전체":
+                System.out.println("   날짜     |  항목  |     내용     |    수입    |    지출    \nㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
                 List<HistoryDTO> historyDTOListA = historyService.viewByAll();
                 if (historyDTOListA == null) return;
+
                 int sumIncomeA = historyService.sumIncome("", "", "", "");
                 int sumExpenseA = historyService.sumExpense("", "", "", "");
                 for (HistoryDTO historyDTO : historyDTOListA) {
+                    String categoryFormat = historyDTO.getCategory();
+                        if (historyDTO.getCategory().length() == 2) {
+                            categoryFormat = String.format(" %s ",historyDTO.getCategory());
+                        }
+                    String contentFormat = historyDTO.getContent();
+                    contentFormat += "      ";
+                    if (contentFormat.length() > 5) {
+                        if (historyDTO.getContent().length() == 2) {
+                            contentFormat = contentFormat.substring(0, 5) + " ...";
+                        } else {
+                            contentFormat = contentFormat.substring(0, 5) + "...";
+                        }
+                    }
                     System.out.println(historyDTO.getDate() + " | " +
-                            historyDTO.getCategory() + " | " +
-                            historyDTO.getContent() + " | " +
-                            historyDTO.getIncome() + " | " +
-                            historyDTO.getExpense());
+                            String.format("%s", categoryFormat) + " | " +
+                            String.format("%s", contentFormat) + " | " +
+                            String.format("%,11d", historyDTO.getIncome()) + " ￦ | " +
+                            String.format("%,11d", historyDTO.getExpense()) + " ￦");
                 }
-                System.out.println("  ● 총 수입 : +" + sumIncomeA + "    ● 총 지출 : -" + sumExpenseA + "\n");
+                System.out.println("  ● 총 수입 : +" + sumIncomeA + " ￦    ● 총 지출 : -" + sumExpenseA + " ￦\n");
                 break;
         }
     }
 
     public void delete() {
-        System.out.println("=== 메인 → 5.가계부 → " +
+        System.out.println("\n=== 메인 → 5.가계부 → " +
                 Container.getSeletedAccountBook().getAccountName() + " → 내역 → 4.삭제 ===");
         System.out.println("삭제할 내역의 날짜와 내용을 입력해주세요.");
         System.out.print("날짜 : ");
@@ -198,7 +216,8 @@ public class HistoryController {
     }
 
     public void update() {
-        System.out.println("=== 메인 → 5.가계부 → " +
+        Container.numFormat();
+        System.out.println("\n=== 메인 → 5.가계부 → " +
                 Container.getSeletedAccountBook().getAccountName() + " → 내역 → 3.수정 ===");
         System.out.println("수정할 내역의 날짜와 내용을 입력해주세요.");
         System.out.print("날짜 : ");
@@ -206,9 +225,9 @@ public class HistoryController {
         System.out.print("내용 : ");
         String findContent = Container.getSc().nextLine();
         HistoryDTO historyDTO = historyService.findHistory(findDate, findContent);
-        System.out.println("          |    날짜    |  항목  |  내용  |   수입   |   지출   ");
+        System.out.println("         |    날짜    |  항목  |  내용  |   수입   |   지출   ");
         System.out.println("기존 내역 : " + historyDTO.getDate() + " | " + historyDTO.getCategory() + " | " + historyDTO.getContent() + " | " +
-                historyDTO.getIncome() + " | " + historyDTO.getExpense());
+                Container.df.format(historyDTO.getIncome()) + " ￦ | " + Container.df.format(historyDTO.getExpense()) + " ￦");
         try {
             System.out.print("날짜 입력 : ");
             String updateDate = Container.getSc().nextLine().trim();

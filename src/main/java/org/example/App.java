@@ -3,6 +3,7 @@ package org.example;
 import org.example.DB.DBConnection;
 import org.example.Global.Container;
 import org.example.accountBook.AccountBookController;
+import org.example.history.HistoryController;
 import org.example.member.MemberController;
 import org.example.wiseSaying.WiseSaying;
 import org.example.wiseSaying.WiseSayingController;
@@ -14,6 +15,7 @@ public class App {
 
     WiseSayingController wiseSayingController;
     WiseSaying wiseSaying;
+    HistoryController historyController;
 
     App() {
         DBConnection.DB_NAME = "accountBook";
@@ -42,7 +44,7 @@ public class App {
             System.out.println(wiseSaying.getWiseSaying());
         }
         while (true) {
-            System.out.println("=== 메인 ===\n1.가입|2.로그인|3.로그아웃|4.탈퇴|5.가계부|6.종료");
+            System.out.println("\n=== 메인 ===\n1.가입|2.로그인|3.로그아웃|4.탈퇴|5.가계부|6.종료");
             System.out.print("명령어 입력 : ");
             String command = Container.getSc().nextLine().trim();
             switch (command) {
@@ -89,3 +91,4 @@ public class App {
         }
     }
 }
+

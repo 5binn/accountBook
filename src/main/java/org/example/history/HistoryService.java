@@ -86,7 +86,9 @@ public class HistoryService {
     public void delete(String deleteDate, String deleteContent) {
         historyRepository.delete(deleteDate, deleteContent);
     }
-
+    public void deleteAll(int accountId) {
+        historyRepository.deleteAll(accountId);
+    }
     public int update(String updateDate, int categoryId, String content, int income, int expense, String findDate, String findContent) {
         return historyRepository.update(updateDate, categoryId, content, income, expense, findDate, findContent);
     }

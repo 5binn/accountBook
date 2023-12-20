@@ -27,7 +27,6 @@ public class HistoryRepository {
                  year, month, day, categoryId);
         return Container.getDbConnection().selectRowIntValue(sql);
     }
-
     public int sumExpense(String year, String month, String day, String categoryId) {
         String sql = String.format("SELECT SUM(expense) FROM history WHERE " +
                         "accountId = %d %s %s %s %s;", Container.getSeletedAccountBook().getId(),
@@ -99,7 +98,10 @@ public class HistoryRepository {
         String sql = String.format("DELETE FROM `history` WHERE `date` = '%s' AND content = '%s';", deleteDate, deleteContent);
         Container.getDbConnection().delete(sql);
     }
-
+    public void deleteAll(int accountId) {
+        String sql = String.format("DELETE FROM `history` WHERE accountId = %d;", accountId);
+        Container.getDbConnection().delete(sql);
+    }
     public int update(String updateDate, int categoryId, String content, int income, int expense, String findDate, String findContent) {
         String sql = String.format("UPDATE `history`" +
                 "SET `date` = %s," +

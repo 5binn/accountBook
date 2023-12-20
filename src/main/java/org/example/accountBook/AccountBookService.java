@@ -1,14 +1,9 @@
 package org.example.accountBook;
 
-import org.example.Global.Container;
-
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class AccountBookService {
-    private AccountBookRepository accountBookRepository;
+    private final AccountBookRepository accountBookRepository;
 
     public AccountBookService() {
         accountBookRepository = new AccountBookRepository();

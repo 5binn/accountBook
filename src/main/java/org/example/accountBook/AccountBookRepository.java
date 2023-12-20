@@ -65,7 +65,7 @@ public class AccountBookRepository {
                         "WHERE accountName = '%s';", Container.getLoggedInMember().getId(), modifyName, balance, savingGoal,
                 Container.getLoggedInMember().getUserName(), modifyDate, accountName);
         Container.getDbConnection().update(sql);
-        List<AccountBook> accountBookList = this.findByAll();
+        //List<AccountBook> accountBookList = this.findByAll();
         return this.findByAccount(modifyName);
     }
 

@@ -270,9 +270,9 @@ public class AccountBookController {
         return true;
     }
 
-    public boolean idCheck() {
+    /*public boolean idCheck() {
         return Container.getSeletedAccountBook().getMemberId() == Container.getLoggedInMember().getId();
-    }
+    }*/
 
 
 }

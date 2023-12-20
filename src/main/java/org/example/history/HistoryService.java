@@ -1,12 +1,9 @@
 package org.example.history;
 
-import org.example.Global.Container;
-import org.example.Request;
 
 import java.util.List;
 
 public class HistoryService {
-    Request request;
     private final HistoryRepository historyRepository;
 
     public HistoryService() {

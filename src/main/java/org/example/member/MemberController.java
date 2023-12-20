@@ -9,8 +9,8 @@ import java.util.List;
 
 public class MemberController {
 
-    private MemberService memberService;
-    private AccountBookService accountBookService;
+    private final MemberService memberService;
+    private final AccountBookService accountBookService;
 
     public MemberController() {
         memberService = new MemberService();

@@ -127,17 +127,7 @@ public class HistoryController {
                     if (historyDTO.getCategory().length() == 2) {
                         categoryFormat = String.format(" %s ", historyDTO.getCategory());
                     }
-                    String contentFormat = historyDTO.getContent();
-                    contentFormat += "         ";
-                    if (historyDTO.getContent().length() == 2) {
-                        contentFormat = contentFormat.substring(0, 5) + "  ";
-                    } else if (historyDTO.getContent().length() == 3) {
-                        contentFormat = contentFormat.substring(0, 5) + " ";
-                    } else if (historyDTO.getContent().length() == 4) {
-                        contentFormat = contentFormat.substring(0, 5);
-                    } else if (historyDTO.getContent().isEmpty()) {
-                        contentFormat = "         ";
-                    }
+                    String contentFormat = getString(historyDTO);
                     System.out.println(historyDTO.getDate() + " | " +
                             String.format("%s", categoryFormat) + " | " +
                             String.format("%s", contentFormat) + " | " +
@@ -173,17 +163,7 @@ public class HistoryController {
                     if (historyDTO.getCategory().length() == 2) {
                         categoryFormat = String.format(" %s ", historyDTO.getCategory());
                     }
-                    String contentFormat = historyDTO.getContent();
-                    contentFormat += "         ";
-                    if (historyDTO.getContent().length() == 2) {
-                        contentFormat = contentFormat.substring(0, 5) + "  ";
-                    } else if (historyDTO.getContent().length() == 3) {
-                        contentFormat = contentFormat.substring(0, 5) + " ";
-                    } else if (historyDTO.getContent().length() == 4) {
-                        contentFormat = contentFormat.substring(0, 5);
-                    } else if (historyDTO.getContent().isEmpty()) {
-                        contentFormat = "         ";
-                    }
+                    String contentFormat = getString(historyDTO);
                     System.out.println(historyDTO.getDate() + " | " +
                             String.format("%s", categoryFormat) + " | " +
                             String.format("%s", contentFormat) + " | " +
@@ -207,17 +187,7 @@ public class HistoryController {
                     if (historyDTO.getCategory().length() == 2) {
                         categoryFormat = String.format(" %s ", historyDTO.getCategory());
                     }
-                    String contentFormat = historyDTO.getContent();
-                    contentFormat += "         ";
-                    if (historyDTO.getContent().length() == 2) {
-                        contentFormat = contentFormat.substring(0, 5) + "  ";
-                    } else if (historyDTO.getContent().length() == 3) {
-                        contentFormat = contentFormat.substring(0, 5) + " ";
-                    } else if (historyDTO.getContent().length() == 4) {
-                        contentFormat = contentFormat.substring(0, 5);
-                    } else if (historyDTO.getContent().isEmpty()) {
-                        contentFormat = "         ";
-                    }
+                    String contentFormat = getString(historyDTO);
                     System.out.println(historyDTO.getDate() + " | " +
                             String.format("%s", categoryFormat) + " | " +
                             String.format("%s", contentFormat) + " | " +
@@ -233,6 +203,22 @@ public class HistoryController {
                 break;
         }
     }
+
+    private static String getString(HistoryDTO historyDTO) {
+        String contentFormat = historyDTO.getContent();
+        contentFormat += "         ";
+        if (historyDTO.getContent().length() == 2) {
+            contentFormat = contentFormat.substring(0, 5) + "  ";
+        } else if (historyDTO.getContent().length() == 3) {
+            contentFormat = contentFormat.substring(0, 5) + " ";
+        } else if (historyDTO.getContent().length() == 4) {
+            contentFormat = contentFormat.substring(0, 5);
+        } else if (historyDTO.getContent().isEmpty()) {
+            contentFormat = "         ";
+        }
+        return contentFormat;
+    }
+
     public void readAll() {
         System.out.println("    날짜   |  항목  |   내용    |      수입      |       지출    \nㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
         List<HistoryDTO> historyDTOListA = historyService.viewByAll();
@@ -245,17 +231,7 @@ public class HistoryController {
             if (historyDTO.getCategory().length() == 2) {
                 categoryFormat = String.format(" %s ", historyDTO.getCategory());
             }
-            String contentFormat = historyDTO.getContent();
-            contentFormat += "         ";
-            if (historyDTO.getContent().length() == 2) {
-                contentFormat = contentFormat.substring(0, 5) + "  ";
-            } else if (historyDTO.getContent().length() == 3) {
-                contentFormat = contentFormat.substring(0, 5) + " ";
-            } else if (historyDTO.getContent().length() == 4) {
-                contentFormat = contentFormat.substring(0, 5);
-            } else if (historyDTO.getContent().isEmpty()) {
-                contentFormat = "         ";
-            }
+            String contentFormat = getString(historyDTO);
             System.out.println(historyDTO.getDate() + " | " +
                     String.format("%s", categoryFormat) + " | " +
                     String.format("%s", contentFormat) + " | " +
@@ -296,17 +272,7 @@ public class HistoryController {
         if (historyDTO.getCategory().length() == 2) {
             categoryFormat = String.format(" %s ", historyDTO.getCategory());
         }
-        String contentFormat = historyDTO.getContent();
-        contentFormat += "         ";
-        if (historyDTO.getContent().length() == 2) {
-            contentFormat = contentFormat.substring(0, 5) + "  ";
-        } else if (historyDTO.getContent().length() == 3) {
-            contentFormat = contentFormat.substring(0, 5) + " ";
-        } else if (historyDTO.getContent().length() == 4) {
-            contentFormat = contentFormat.substring(0, 5);
-        } else if (historyDTO.getContent().isEmpty()) {
-            contentFormat = "         ";
-        }
+        String contentFormat = getString(historyDTO);
         System.out.println("기존 내역 : " + historyDTO.getDate() + " | " +
                 String.format("%s", categoryFormat) + " | " +
                 String.format("%s", contentFormat) + " | " +

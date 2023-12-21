@@ -26,7 +26,10 @@ public class MemberController {
             System.out.print("ID : ");
             String checkName = Container.getSc().nextLine().trim();
             Member check = memberService.findBySameId(checkName);
-            if (check != null) {
+            if (checkName.length() > 8) {
+                System.out.println("ID는 8글자까지 가능합니다.");
+            }
+            else if (check != null) {
                 System.out.println("중복된 ID가 있습니다.");
             } else {
                 userName = checkName;

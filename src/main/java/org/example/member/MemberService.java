@@ -36,9 +36,9 @@ public class MemberService {
         return null;
     }
 
-    public List<Member> findByAll() {
+    /*public List<Member> findByAll() {
         return memberRepository.findByAll();
-    }
+    }*/
 
 
 }

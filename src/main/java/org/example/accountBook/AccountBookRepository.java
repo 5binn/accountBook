@@ -102,7 +102,7 @@ public class AccountBookRepository {
                 }
             }
         }
-        String authority = Container.getSeletedAccountBook().getMemberIds();
+        String authority = Container.getSelectedAccountBook().getMemberIds();
         String[] memberList = authority.split(",");
     }*/
 }

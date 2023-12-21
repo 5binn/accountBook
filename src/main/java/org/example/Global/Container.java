@@ -17,8 +17,10 @@ public class Container {
     @Getter
     private static Scanner sc;
     private static DBConnection dbConnection;
+    @Setter
     @Getter
     private static Member loggedInMember;
+    @Setter
     @Getter
     private static AccountBook seletedAccountBook;
     @Getter
@@ -54,12 +56,7 @@ public class Container {
         BigDecimal bigDecimal = new BigDecimal(String.valueOf(decimal));
         return bigDecimal.intValue();
     }
-    public static void setLoggedInMember(Member member) {
-        loggedInMember = member;
-    }
-    public static void setSeletedAccountBook(AccountBook accountBook) {
-        seletedAccountBook = accountBook;
-    }
+
     public static void setWiseSaying(WiseSaying wiseSaying) {
         wiseSayings =  wiseSaying;
     }

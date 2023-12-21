@@ -3,7 +3,6 @@ package org.example;
 import org.example.DB.DBConnection;
 import org.example.Global.Container;
 import org.example.accountBook.AccountBookController;
-import org.example.history.HistoryController;
 import org.example.member.MemberController;
 import org.example.wiseSaying.WiseSaying;
 import org.example.wiseSaying.WiseSayingController;
@@ -15,7 +14,6 @@ public class App {
 
     WiseSayingController wiseSayingController;
     WiseSaying wiseSaying;
-    HistoryController historyController;
 
     App() {
         DBConnection.DB_NAME = "accountBook";

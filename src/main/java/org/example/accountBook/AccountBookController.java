@@ -258,7 +258,7 @@ public class AccountBookController {
         int savingGoal = Integer.parseInt(Container.getSc().nextLine());
 
         String name = accountBookService.modify(nameCheck, balance, savingGoal, accountBook.getRegDate(), accountName);
-        System.out.println(Container.getLoggedInMember().getUserName() + "님의 " + name + "->" + nameCheck + " 로 수정되었습니다.");
+        System.out.println(Container.getLoggedInMember().getUserName() + "님의 " + name + " → " + nameCheck + " 로 수정되었습니다.");
     }
 
 
@@ -271,7 +271,7 @@ public class AccountBookController {
     }
 
     /*public boolean idCheck() {
-        return Container.getSeletedAccountBook().getMemberId() == Container.getLoggedInMember().getId();
+        return Container.getSelectedAccountBook().getMemberId() == Container.getLoggedInMember().getId();
     }*/
 
 
